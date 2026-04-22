@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentoro Platform</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f2f5; margin: 0; }
+        .card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 90%; }
+        h1 { color: #1c1e21; font-size: 24px; margin-bottom: 10px; }
+        p { color: #606770; margin-bottom: 2rem; line-height: 1.5; }
+        .fb-btn { 
+            background-color: #1877f2; color: white; border: none;
+            padding: 12px 24px; border-radius: 6px; font-weight: bold; 
+            cursor: pointer; width: 100%; font-size: 16px;
+        }
+        .fb-btn:hover { background-color: #166fe5; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Agentoro AI Sales</h1>
+    <p>قم بربط حساب الواتساب الخاص بك لتفعيل نظام الرد الآلي الذكي.</p>
+    
+    <button onclick="launchWhatsAppSignup()" class="fb-btn">
+        Continue with Facebook
+    </button>
+</div>
+
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '4436833363269286', // App ID من صورتك
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v25.0'
+        });
+    };
+
+    function launchWhatsAppSignup() {
+        FB.login(function(response) {
+            if (response.authResponse) {
+                const token = response.authResponse.accessToken;
+                // إرسال التوكن مباشرة للسيرفر
+                window.location.href = "https://wa.agentoro.shop/auth/callback?code=" + token;
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        }, {
+            // حذفنا business_management لأنها سبب رسالة "Content not available"
+            scope: 'whatsapp_business_management,whatsapp_business_messaging',
+            extras: {
+                feature: 'whatsapp_embedded_signup',
+                config_id: '958603016868973' // Config ID الخاص بك
+            }
+        });
+    }
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+</body>
+</html>
